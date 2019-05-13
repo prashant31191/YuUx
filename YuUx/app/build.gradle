@@ -1,0 +1,75 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+ext {
+    travisBuild = System.getenv("TRAVIS") == "true"
+    // allows for -Dpre-dex=false to be set
+    preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
+}
+
+android {
+
+    compileSdkVersion Versions.compile_sdk_version
+
+    defaultConfig {
+        applicationId Versions.application_id
+        minSdkVersion Versions.min_sdk_version
+        targetSdkVersion Versions.target_sdk_version
+        versionCode Versions.version_code
+        versionName Versions.version_name
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    kapt {
+        generateStubs = true
+    }
+
+    dexOptions {
+        // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
+        preDexLibraries = preDexEnabled && !travisBuild
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation SupportDeps.vector_drawable
+    implementation SupportDeps.appcompact_v7
+    implementation project(':base')
+    kapt DaggerDeps.processer
+    kapt DaggerDeps.compiler
+    kapt ArchComponents.room_compiler
+    kapt ArchComponents.life_cycle_compiler
+    implementation KotlinDeps.kotlin_reflection
+    implementation OtherDeps.multidex
+
+    testImplementation TestDeps.junit
+    androidTestImplementation TestDeps.runner
+    androidTestImplementation TestDeps.espresso_core
+
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:2.2') {
+        // Necessary to avoid version conflicts
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+    }
+
+    testImplementation TestDeps.test_live_data
+    testImplementation TestDeps.test_room
+}
