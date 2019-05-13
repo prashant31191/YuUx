@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs size="@dimen/size"
+    space="@dimen/space">
+
+    <tab
+        inactiveColor="@color/colorGray"
+        activeColor="@color/colorOrange"
+        drawable="@drawable/ic_home_black_24dp"/>
+
+    <tab
+        inactiveColor="@color/colorGray"
+        activeColor="@color/colorBlue"
+        drawable="@drawable/ic_trending_up_black_24dp"/>
+
+    <tab
+        inactiveColor="@color/colorGray"
+        activeColor="@color/colorRed"
+        drawable="@drawable/ic_subscriptions_black_24dp"/>
+
+    <tab
+        inactiveColor="@color/colorGray"
+        activeColor="@color/colorPurple"
+        drawable="@drawable/ic_notifications_black_24dp"/>
+</tabs>

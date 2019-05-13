@@ -5,6 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+    <com.view.tablayout.AnimatedTabLayout
+        android:id="@+id/atl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:atl_tabs="@xml/mytabs"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
+
     <TextView
         android:id="@+id/txtLabel"
         android:layout_width="wrap_content"
@@ -20,5 +37,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Trending Videos" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
